@@ -1,0 +1,5 @@
+fastapi
+qdrant-client
+langchain
+langchain-anthropic
+uvicorn
