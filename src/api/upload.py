@@ -3,7 +3,7 @@ import os
 from src.services.pdf_parser import PDFParser
 from src.services.chunk_service import ChunkService
 from src.services.embedding_service import EmbeddingService
-router = APIRouter()
+from src.services.qdrant_service import QdrantService
 router = APIRouter()
 
 UPLOAD_DIR = "uploads"
@@ -31,13 +31,17 @@ async def upload_pdf(file: UploadFile = File(...)):
     vector = EmbeddingService.generate_embedding(text)
     embedding = EmbeddingService.generate_embedding(first_chunk)
 
+    collections = QdrantService.client.get_collections()
+    print(collections)
+
 
 
     return {
         "filename": file.filename,
         "text": text,
         "chunks": chunks,
-        "vector" : vector
+        "vector" : vector,
+        "embedding" :embedding
 
     }
 
@@ -47,3 +51,6 @@ async def upload_pdf(file: UploadFile = File(...)):
     #     "total_chunks": len(chunks),
     #     "embedding_dimension": len(embedding)
     # }
+
+
+    
